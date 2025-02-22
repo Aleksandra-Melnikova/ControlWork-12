@@ -69,7 +69,6 @@ usersRouter.post('/register',imagesUpload.single('image'), async (req, res, next
             res.status(400).send(error);
             return;
         }
-
         next(error);
     }
 });

@@ -7,3 +7,8 @@ export interface UserFields {
     displayName: string;
     googleID: string;
 }
+export interface PhotoWithoutID {
+    user: string,
+    title: string,
+    image: string
+}
