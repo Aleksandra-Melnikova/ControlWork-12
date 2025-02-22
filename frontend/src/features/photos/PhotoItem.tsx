@@ -1,11 +1,16 @@
 import { apiUrl } from "../../globalConstants.ts";
-import { useAppSelector } from "../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../users/UserSlice.ts";
 import { selectDeleteLoading } from "./photosSlice.ts";
 import ButtonLoading from "../../components/UI/ButtonLoading/ButtonLoading.tsx";
 import { NavLink } from "react-router-dom";
 import Modal from "../../components/UI/Modal/Modal.tsx";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import {
+  deletePhoto,
+  fetchPhotos,
+  fetchPhotosForOneUser,
+} from "./photosThunk.ts";
 
 interface Props {
   title: string;
@@ -29,6 +34,22 @@ const PhotoItem: React.FC<Props> = ({
   const user = useAppSelector(selectUser);
   const [showModal, setShowModal] = useState<boolean>(false);
   const deleteLoading = useAppSelector(selectDeleteLoading);
+  const dispatch = useAppDispatch();
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("userID");
+
+  const fetchAllPhotos = useCallback(() => {
+    if (userId) {
+      dispatch(fetchPhotosForOneUser(userId));
+    } else {
+      dispatch(fetchPhotos());
+    }
+  }, [userId, dispatch]);
+
+  const deleteOnePhoto = async (id: string) => {
+    await dispatch(deletePhoto(id));
+    void fetchAllPhotos();
+  };
 
   return (
     <>
@@ -63,9 +84,9 @@ const PhotoItem: React.FC<Props> = ({
           <img
             className="card-img-top m-1 mb-0 mx-auto rounded-1"
             style={{
-              width: "auto",
+              width: "98%",
               height: "150px",
-              objectFit: "contain",
+              objectFit: "cover",
               overflow: "hidden",
             }}
             src={`${apiUrl}/${image}`}
@@ -86,14 +107,25 @@ const PhotoItem: React.FC<Props> = ({
               {userName}
             </NavLink>{" "}
           </h4>
-          {user?.role === "admin" || user?._id === paramsID ? (
+          {user?.role === "admin" && onDelete ? (
             <div className={"mt-auto"}>
               <ButtonLoading
                 isLoading={deleteLoading}
                 isDisabled={deleteLoading}
                 text={"Delete"}
                 type={"button"}
-                onClick={() => onDelete && onDelete(id)}
+                onClick={() => onDelete(id)}
+              />
+            </div>
+          ) : null}
+          {user?.role === "user" && user?._id === paramsID ? (
+            <div className={"mt-auto"}>
+              <ButtonLoading
+                isLoading={deleteLoading}
+                isDisabled={deleteLoading}
+                text={"Delete"}
+                type={"button"}
+                onClick={() => deleteOnePhoto(id)}
               />
             </div>
           ) : null}

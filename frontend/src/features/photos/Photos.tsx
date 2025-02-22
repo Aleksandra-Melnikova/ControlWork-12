@@ -40,7 +40,7 @@ const Photos = () => {
   return (
     <>
       <div className="container row justify-content-center mt-0 pt-0 px-0">
-        <div className="col-12 ">
+        <div className="col-12 mb-5 ">
           <div className="row justify-content-center align-items-center">
             {userId ? (
               <h3 className={"title col-3"}>
@@ -50,7 +50,8 @@ const Photos = () => {
             ) : null}
             {user?.token && user._id === userId ? (
               <button
-                className={"btn-color-new w-25 ms-auto col-3 mt-0 text-white"}
+                className={"btn-color-new ms-auto col-3 mt-0 text-white"}
+                style={{ width: "200px", padding: "10px 20px" }}
                 onClick={() => navigate("/photos/add_photo")}
               >
                 Add new Photo
@@ -69,7 +70,12 @@ const Photos = () => {
                         {photos.map((photo) => (
                           <PhotoItem
                             paramsID={userId}
-                            onDelete={() => deleteOnePhoto(photo._id)}
+                            onDelete={
+                              user?.role === "admin" ||
+                              photo.user._id === user?._id
+                                ? deleteOnePhoto
+                                : undefined
+                            }
                             key={photo._id}
                             title={photo.title}
                             image={photo.image}

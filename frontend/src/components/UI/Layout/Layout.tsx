@@ -7,7 +7,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       <header>
         <ToolBar />
       </header>
-      <main className="container">{children}</main>
+      <main className="container mb-3">{children}</main>
     </>
   );
 };
