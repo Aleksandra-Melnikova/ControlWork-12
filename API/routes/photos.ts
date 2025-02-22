@@ -22,26 +22,6 @@ photosRouter.get('/', async (req, res, next) => {
     }
 });
 
-photosRouter.get('/:id', async (req, res, next) => {
-    const id = req.params.id;
-    if (!req.params.id) {
-        res.status(404).send({error:"Not found"});
-    }
-
-    try {
-        const photo = await Photo.findById(id);
-
-        if (!photo) {
-            res.status(404).send({error:"Photo not found"});
-        }
-        res.send(photo);
-
-    } catch (e) {
-        next(e);
-    }
-});
-
-
 photosRouter.post('/', imagesUpload.single('image'), auth, permit('admin','user'), async (req, res, next) => {
     let reqWithAuth = req as RequestWithUser;
     const userFromAuth = reqWithAuth.user;
