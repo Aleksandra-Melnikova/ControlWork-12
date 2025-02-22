@@ -6,8 +6,9 @@ import {
   deletePhoto, fetchPhotos, fetchPhotosForOneUser,
 
 } from './photosThunk.ts';
-import { selectUser } from "../users/UserSlice.ts";
+import { selectUser } from '../users/UserSlice.ts';
 import Loader from '../../components/UI/Loader/Loader.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const Photos = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Photos = () => {
   const params = new URLSearchParams(window.location.search);
   const userId = params.get("userID");
   const user = useAppSelector(selectUser);
+  const navigate = useNavigate();
 
 
   const fetchAllPhotos = useCallback(() => {
@@ -35,10 +37,12 @@ const Photos = () => {
     void fetchAllPhotos();
   };
 
-
   return (<>
     <div className="container row justify-content-center mt-0 pt-0 px-0">
-      <div className="col-12 mx-auto text-center">
+      <div className="col-12 ">
+        <div className="row justify-content-center align-items-center">
+        {userId? <h3 className={'title col-3'}>{photos.length>0? photos[0].user.displayName: user?.displayName} gallery</h3>:null}
+       {user?.token && user._id === userId? <button className={'btn-color-new w-25 ms-auto col-3 mt-0 text-white'} onClick={()=>navigate('/photos/add_photo')}>Add new Photo</button>: null}</div>
         <>
           {isFetchLoading ? (
             <Loader />
@@ -74,7 +78,7 @@ const Photos = () => {
                     </>
                   )
                 ) : (
-                  <p className={'text-center mt-5 fs-3'}> No photos</p>
+                  <p className={' d-inline-block mx-auto mt-5 fs-3'}> No photos</p>
                 )}
               </>
             </div>

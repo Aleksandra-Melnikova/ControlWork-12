@@ -15,8 +15,6 @@ export interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({ username, image }) => {
   const dispatch = useAppDispatch();
   const user = useSelector(selectUser);
-  const params = new URLSearchParams(window.location.search);
-  const userId = params.get("userID");
   const HandleLogout = () => {
     dispatch(logout());
     dispatch(unsetUser());
@@ -54,12 +52,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ username, image }) => {
             )}
           </div>
         </div>
-        {userId?<NavLink
-          className={`mb-2 mt-1 d-inline-block nav-link nav-link-tool text-white border border-1 border-white rounded-2 mx-1  p-2`}
-          to={`/photos/add_photo`}
-        >
-          Add new photo
-        </NavLink>:null}
         <NavLink
           className={`mb-2 mt-1 d-inline-block nav-link nav-link-tool text-white border border-1 border-white rounded-2 mx-1  p-2`}
           to={`/photos?userID=${user?._id}`}
