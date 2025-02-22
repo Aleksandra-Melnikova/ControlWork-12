@@ -56,7 +56,8 @@ photosRouter.delete('/:id', auth,  permit('admin','user') ,async (req, res, next
     }
     try{
         if(userFromAuth.role === 'user'){
-            if(photo.user._id === userFromAuth._id){
+
+            if(photo.user._id.toString() === userFromAuth._id.toString()){
                 await Photo.deleteOne({_id: req.params.id});
                 res.send({message: "Photo was deleted successfully."});
             }else{
