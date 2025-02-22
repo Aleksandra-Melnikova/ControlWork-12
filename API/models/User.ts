@@ -20,17 +20,17 @@ const UserSchema = new Schema<
     UserModel,
     UserMethods
 >({
-    email: {
+    username: {
         type: String,
         required: true,
         unique: true,
         validate: {
             validator: async function (this: HydratedDocument<UserFields> ,value: string): Promise<boolean> {
-                if (!this.isModified('email')) return true;
-                const user: UserFields | null = await User.findOne({email: value});
+                if (!this.isModified('username')) return true;
+                const user: UserFields | null = await User.findOne({username: value});
                 return !user;
             },
-            message: "This email is already taken",
+            message: "This username is already taken",
         }
     },
     password: {
@@ -47,14 +47,9 @@ const UserSchema = new Schema<
         type: String,
         required: true,
     },
-    displayName: {
-        type: String,
-        required: true,
-    },
     googleID: String,
     image:{
         type: String,
-        required: true,
     },
 });
 

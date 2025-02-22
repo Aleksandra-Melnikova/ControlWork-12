@@ -18,19 +18,17 @@ const run = async () => {
     }
 
     const[Jane, John]=await User.create({
-            email: "Jane@mail.com",
+            username: "Jane",
             password: "123",
             token: randomUUID(),
             role: "admin",
-        displayName: "Jane",
         image: "fixtures/Jane1.jpg",
         },
         {
-           email: "John@mail.com",
+           username: "John",
             password: "123",
             token: randomUUID(),
             role: "user",
-            displayName: "John",
             image: "fixtures/John.webp",
         });
 

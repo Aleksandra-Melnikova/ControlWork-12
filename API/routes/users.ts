@@ -54,14 +54,12 @@ usersRouter.post("/google", async (req, res, next) => {
 usersRouter.post('/register',imagesUpload.single('image'), async (req, res, next) => {
     try {
         const user = new User({
-            email: req.body.email,
+            username: req.body.username,
             password: req.body.password,
-            displayName: req.body.displayName,
             image: req.file ? 'images' + req.file.filename : null,
         });
 
         user.generateToken();
-
         await user.save();
         res.send({user, message: "Register success"});
     } catch (error) {
@@ -75,10 +73,10 @@ usersRouter.post('/register',imagesUpload.single('image'), async (req, res, next
 
 usersRouter.post('/sessions', async (req, res, next) => {
     try {
-        const user = await User.findOne({email: req.body.email});
+        const user = await User.findOne({username: req.body.username});
 
         if (!user) {
-            res.status(400).send({error: 'Invalid email.'});
+            res.status(400).send({error: 'Invalid username.'});
             return;
         }
 

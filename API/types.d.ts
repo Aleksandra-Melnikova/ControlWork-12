@@ -1,10 +1,9 @@
 export interface UserFields {
-    email: string;
+    username: string;
     password: string;
     token: string;
     role: string;
     image: string;
-    displayName: string;
     googleID: string;
 }
 export interface PhotoWithoutID {

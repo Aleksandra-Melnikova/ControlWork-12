@@ -12,10 +12,10 @@ photosRouter.get('/', async (req, res, next) => {
     try {
         const idQuery = req.query.userID as string;
         if(idQuery){
-            const photos = await Photo.find({user: idQuery}).populate('user', '_id displayName');
+            const photos = await Photo.find({user: idQuery}).populate('user', '_id username');
             res.send(photos);}
         else{
-            const photos = await Photo.find().populate('user', '_id displayName');
+            const photos = await Photo.find().populate('user', '_id username');
             res.send(photos);
         }} catch (e) {
         next(e);
