@@ -11,23 +11,21 @@ const port = 8000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.use('/users', usersRouter);
-app.use('/photos', photosRouter);
+app.use("/users", usersRouter);
+app.use("/photos", photosRouter);
 
 const run = async () => {
-    await mongoose.connect(config.db);
+  await mongoose.connect(config.db);
 
-    app.listen(port, () => {
-        console.log(`Server started on port http://localhost:${port}`);
-    });
+  app.listen(port, () => {
+    console.log(`Server started on port http://localhost:${port}`);
+  });
 
-    process.on('exit', () => {
-       mongoDb.disconnect();
-    });
+  process.on("exit", () => {
+    mongoDb.disconnect();
+  });
 };
 
-run().catch(err => console.log(err));
-
-
+run().catch((err) => console.log(err));
