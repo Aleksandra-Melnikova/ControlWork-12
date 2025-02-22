@@ -21,7 +21,7 @@ const ToolBar = () => {
           <div className="ms-auto">
             <ul className="navbar-nav">
               {user ? (
-                <UserMenu _id={user._id} image={user.image} username={user.displayName} />
+                <UserMenu image={user.image} username={user.displayName} />
               ) : (
                 <AnonymousMenu />
               )}
