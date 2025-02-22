@@ -1,6 +1,7 @@
 import { Photo } from '../../types';
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  createPhoto,
   deletePhoto,
   fetchPhotos, fetchPhotosForOneUser,
 
@@ -10,18 +11,14 @@ import { RootState } from "../../app/store.ts";
 interface IPhotosState {
   photos: Photo[];
   fetchLoading: boolean;
-  // createLoading: boolean;
-  // oneCocktail: DetailCocktail | null;
-  // fetchOneLoading: boolean;
+  createLoading: boolean;
   deleteLoading: boolean;
 }
 
 const initialState: IPhotosState = {
   photos: [],
   fetchLoading: false,
-  // createLoading: false,
-  // oneCocktail: null,
-  // fetchOneLoading: false,
+  createLoading: false,
   deleteLoading: false,
 };
 
@@ -29,12 +26,8 @@ export const selectPhotoItems = (state: RootState) =>
   state.photos.photos;
 export const selectFetchLoading = (state: RootState) =>
   state.photos.fetchLoading;
-// export const selectCreateLoading = (state: RootState) =>
-//   state.cocktails.createLoading;
-// export const selectOneCocktail = (state: RootState) =>
-//   state.cocktails.oneCocktail;
-// export const selectFetchOneLoading = (state: RootState) =>
-//   state.cocktails.fetchOneLoading;
+export const selectCreateLoading = (state: RootState) =>
+  state.photos.createLoading;
 export const selectDeleteLoading = (state: RootState) =>
   state.photos.deleteLoading;
 
@@ -67,16 +60,6 @@ export const photosSlice = createSlice({
       .addCase(fetchPhotosForOneUser.rejected, (state) => {
         state.fetchLoading = false;
       })
-      // .addCase(getCocktail.pending, (state) => {
-      //   state.fetchOneLoading = true;
-      // })
-      // .addCase(getCocktail.fulfilled, (state, { payload: cocktail }) => {
-      //   state.fetchOneLoading = false;
-      //   state.oneCocktail = cocktail;
-      // })
-      // .addCase(getCocktail.rejected, (state) => {
-      //   state.fetchOneLoading = false;
-      // })
       .addCase(deletePhoto.pending, (state) => {
         state.deleteLoading = true;
       })
@@ -86,16 +69,15 @@ export const photosSlice = createSlice({
       .addCase(deletePhoto.rejected, (state) => {
         state.deleteLoading = false;
       })
-      //
-      // .addCase(createCocktail.pending, (state) => {
-      //   state.createLoading = true;
-      // })
-      // .addCase(createCocktail.fulfilled, (state) => {
-      //   state.createLoading = false;
-      // })
-      // .addCase(createCocktail.rejected, (state) => {
-      //   state.createLoading = false;
-      // })
+      .addCase(createPhoto.pending, (state) => {
+        state.createLoading = true;
+      })
+      .addCase(createPhoto.fulfilled, (state) => {
+        state.createLoading = false;
+      })
+      .addCase(createPhoto.rejected, (state) => {
+        state.createLoading = false;
+      })
   },
 });
 

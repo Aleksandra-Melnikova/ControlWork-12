@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
-import { Photo } from '../../types';
+import { Photo, PhotoMutation, } from '../../types';
+import { RootState } from '../../app/store.ts';
 
 export const fetchPhotos = createAsyncThunk<Photo[], void>(
   "photos/fetchPhotos",
@@ -19,36 +20,29 @@ export const fetchPhotosForOneUser = createAsyncThunk<Photo[], string>(
     return photoResponse.data || [];
   },
 );
-//
-// export const getCocktail = createAsyncThunk<DetailCocktail, string>(
-//   "cocktails/getCocktail",
-//   async (id) => {
-//     const response = await axiosApi.get<DetailCocktail>(`/cocktails/${id}`);
-//     return response.data;
-//   },
-// );
-// export const createCocktail = createAsyncThunk<
-//   void,
-//   CocktailMutation,
-//   { state: RootState }
-// >("cocktails/createCocktail", async (cocktailMutation, { getState }) => {
-//   const formData = new FormData();
-//   const token = getState().users.user?.token;
-//
-//   const keys = Object.keys(cocktailMutation) as (keyof CocktailMutation)[];
-//
-//   keys.forEach((key) => {
-//     const value = cocktailMutation[key];
-//
-//     if (value !== null) {
-//       formData.append(key, value);
-//     }
-//   });
-//   console.log(formData);
-//   await axiosApi.post("/cocktails", formData, {
-//     headers: { Authorization: token },
-//   });
-// });
+
+export const createPhoto = createAsyncThunk<
+  void,
+  PhotoMutation,
+  { state: RootState }
+>("cocktails/createCocktail", async (photoMutation, { getState }) => {
+  const formData = new FormData();
+  const token = getState().users.user?.token;
+
+  const keys = Object.keys(photoMutation) as (keyof PhotoMutation)[];
+
+  keys.forEach((key) => {
+    const value = photoMutation[key];
+
+    if (value !== null) {
+      formData.append(key, value);
+    }
+  });
+  await axiosApi.post("/photos", formData, {
+    headers: { Authorization: token },
+  });
+});
+
 export const deletePhoto = createAsyncThunk<void, string>(
   "photos/deletePhoto",
   async (id) => {
