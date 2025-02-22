@@ -38,7 +38,7 @@ const run = async () => {
     await Photo.create({
             user: Jane._id,
             title: "Ala Archa Nature Reserve",
-            image: "fixtures/ala_archa_kyrgyzstan",
+            image: "fixtures/ala_archa_kyrgyzstan.jpg",
         },
         {
             user: Jane._id,
@@ -48,22 +48,22 @@ const run = async () => {
         {
             user: Jane._id,
             title: "Bishkek city",
-            image: "Bishkek.jpg",
+            image: "fixtures/Bishkek.jpg",
         },
         {
             user: John._id,
             title: "London city",
-            image: "London.jpg",
+            image: "fixtures/London.jpg",
         },
         {
             user: John._id,
             title: "Paris city",
-            image: "Paris.jpg",
+            image: "fixtures/Paris.jpg",
         },
         {
             user: John._id,
             title: "Beautiful mountains",
-            image: "mountain.jpg",
+            image: "fixtures/mountain.jpg",
         },
 
         );
