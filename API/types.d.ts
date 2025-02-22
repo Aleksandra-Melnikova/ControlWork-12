@@ -10,5 +10,5 @@ export interface UserFields {
 export interface PhotoWithoutID {
     user: string,
     title: string,
-    image: string
+    image: string | null;
 }

@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
-import { Photo, PhotoMutation, } from '../../types';
+import { Photo, PhotoMutation, ValidationError, } from '../../types';
 import { RootState } from '../../app/store.ts';
+import { isAxiosError } from 'axios';
 
 export const fetchPhotos = createAsyncThunk<Photo[], void>(
   "photos/fetchPhotos",
@@ -24,23 +25,31 @@ export const fetchPhotosForOneUser = createAsyncThunk<Photo[], string>(
 export const createPhoto = createAsyncThunk<
   void,
   PhotoMutation,
-  { state: RootState }
->("cocktails/createCocktail", async (photoMutation, { getState }) => {
-  const formData = new FormData();
-  const token = getState().users.user?.token;
+  { rejectValue: ValidationError,state: RootState }
+>("photos/createPhoto", async (photoMutation,{ rejectWithValue, getState }) => {
+  try{ const formData = new FormData();
+    const token = getState().users.user?.token;
 
-  const keys = Object.keys(photoMutation) as (keyof PhotoMutation)[];
+    const keys = Object.keys(photoMutation) as (keyof PhotoMutation)[];
 
-  keys.forEach((key) => {
-    const value = photoMutation[key];
+    keys.forEach((key) => {
 
-    if (value !== null) {
-      formData.append(key, value);
+      const value: string | File | null = photoMutation[key];
+
+      if (value !== null && value !== undefined && value !== 'undefined' && value !== '') {
+        formData.append(key, value);
+        console.log(formData);
+      }
+    });
+    await axiosApi.post("/photos", formData, {
+      headers: { Authorization: token },
+    });}
+  catch (error) {
+    if (isAxiosError(error) && error.status === 400 && error.response) {
+      return rejectWithValue(error.response.data);
     }
-  });
-  await axiosApi.post("/photos", formData, {
-    headers: { Authorization: token },
-  });
+    throw error;
+  }
 });
 
 export const deletePhoto = createAsyncThunk<void, string>(

@@ -1,4 +1,4 @@
-import { Photo } from '../../types';
+import { Photo, ValidationError } from '../../types';
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createPhoto,
@@ -13,6 +13,7 @@ interface IPhotosState {
   fetchLoading: boolean;
   createLoading: boolean;
   deleteLoading: boolean;
+  createError: ValidationError | null;
 }
 
 const initialState: IPhotosState = {
@@ -20,6 +21,7 @@ const initialState: IPhotosState = {
   fetchLoading: false,
   createLoading: false,
   deleteLoading: false,
+  createError: null
 };
 
 export const selectPhotoItems = (state: RootState) =>
@@ -30,6 +32,8 @@ export const selectCreateLoading = (state: RootState) =>
   state.photos.createLoading;
 export const selectDeleteLoading = (state: RootState) =>
   state.photos.deleteLoading;
+export const selectError = (state: RootState) =>
+  state.photos.createError;
 
 export const photosSlice = createSlice({
   name: "photos",
@@ -71,12 +75,14 @@ export const photosSlice = createSlice({
       })
       .addCase(createPhoto.pending, (state) => {
         state.createLoading = true;
+        state.createError = null;
       })
       .addCase(createPhoto.fulfilled, (state) => {
         state.createLoading = false;
       })
-      .addCase(createPhoto.rejected, (state) => {
+      .addCase(createPhoto.rejected, (state, { payload: error }) => {
         state.createLoading = false;
+        state.createError = error || null;
       })
   },
 });

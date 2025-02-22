@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { createPhoto } from './photosThunk.ts';
 import { PhotoMutation } from '../../types';
 import FileInput from "../../components/FileInput/FileInput.tsx";
-import { selectCreateLoading } from "./photosSlice.ts";
+import { selectCreateLoading, selectError } from './photosSlice.ts';
 import { useNavigate } from "react-router-dom";
 import { selectUser } from '../users/UserSlice.ts';
 import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading.tsx';
@@ -19,16 +19,27 @@ const NewPhotoForm = () => {
   const user = useAppSelector(selectUser);
   const isCreateLoading = useAppSelector(selectCreateLoading);
   const navigate = useNavigate();
-  // const [error, setError] = useState<boolean>(false);
+  const error = useAppSelector(selectError);
 
-  const submitFormHandler = (e: FormEvent) => {
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
+  };
+
+  const submitFormHandler = async (e: FormEvent) => {
     e.preventDefault();
-      dispatch(
-        createPhoto({ ...form }),
-      );
+    try {
+      console.log(form);
+      await dispatch(
+        createPhoto(form)).unwrap();
       setForm(initialState);
       navigate(`/photos?userID=${user?._id}`);
-
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const inputChangeHandler = (
@@ -44,7 +55,7 @@ const NewPhotoForm = () => {
     if (files) {
       setForm((prevState) => ({
         ...prevState,
-        [name]: files[0] || null,
+        [name]: files[0],
       }));
     }
   };
@@ -56,23 +67,46 @@ const NewPhotoForm = () => {
           <h3 className="title fs-4">Add new photo</h3>
           <form className="form-horizontal" onSubmit={submitFormHandler}>
             <div className={"form-group"}>
+              {getFieldError("title") ? (
+                <div
+                  className="alert alert-danger w-100 text-center p-1 mx-auto"
+                  role="alert"
+                >
+                  {getFieldError("title")}
+                </div>
+              ) : null}
               <input
-                className={"form-control"}
                 id="title"
                 name="title"
-                required
                 value={form.title}
+                className={
+                  getFieldError("title")
+                    ? "form-control is-invalid"
+                    : "form-control"
+                }
                 onChange={inputChangeHandler}
               />
               <label htmlFor={"name"}>Title</label>
             </div>
 
             <div className={"form-group"}>
+              {getFieldError("image") ? (
+                <div
+                  className="alert alert-danger w-100 text-center p-1 mx-auto"
+                  role="alert"
+                >
+                  {getFieldError("image")}
+                </div>
+              ) : null}
               <FileInput
-                className={"form-control"}
                 id="image"
                 name="image"
                 label="Image"
+                className={
+                  getFieldError("image")
+                    ? "form-control is-invalid"
+                    : "form-control"
+                }
                 onGetFile={fileEventChangeHandler}
                 file={form.image}
               />

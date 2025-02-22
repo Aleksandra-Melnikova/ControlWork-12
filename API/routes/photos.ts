@@ -25,18 +25,17 @@ photosRouter.get('/', async (req, res, next) => {
 photosRouter.post('/', imagesUpload.single('image'), auth, permit('admin','user'), async (req, res, next) => {
     let reqWithAuth = req as RequestWithUser;
     const userFromAuth = reqWithAuth.user;
-    const newPhoto:  PhotoWithoutID  = {
-        user:  (userFromAuth._id).toString(),
-        title: req.body.title,
-        image:'images' + req.file?.filename,
-    };
+    try{
+        const newPhoto:  PhotoWithoutID  = {
+            user:  (userFromAuth._id).toString(),
+            title: req.body.title,
+            image: req.file ? 'images' + req.file.filename : null,
 
-    try {
+    }
         const photo = new Photo(newPhoto);
         await photo.save();
         res.send(photo);
     }
-
     catch (error) {
         if (error instanceof Error.ValidationError) {
             res.status(400).send(error);
