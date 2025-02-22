@@ -21,11 +21,11 @@ usersRouter.post("/google", async (req, res, next) => {
       return;
     }
 
-    const email = payload["email"];
+    const username = payload["email"];
+    console.log(username);
     const id = payload["sub"];
-    const displayName = payload["name"];
     const avatar = payload["picture"];
-    if (!email) {
+    if (!username) {
       res.status(400).send({ error: "Not enough user data to continue" });
       return;
     }
@@ -34,8 +34,7 @@ usersRouter.post("/google", async (req, res, next) => {
 
     if (!user) {
       user = new User({
-        email: email,
-        displayName: displayName,
+        username: username,
         password: crypto.randomUUID(),
         googleID: id,
         image: avatar ? avatar : null,
