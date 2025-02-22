@@ -22,7 +22,7 @@ const ButtonLoading: React.FC<Props> = ({
         onClick={onClick}
         type={type}
         disabled={isDisabled}
-        className="btn-color-new text-white d-flex align-items-center justify-content-center "
+        className="btn-color-new text-white d-flex align-items-center py-2 text-uppercase justify-content-center "
       >
         <span className="me-2">{text}</span>
         {isLoading ? <ButtonSpinner /> : null}
