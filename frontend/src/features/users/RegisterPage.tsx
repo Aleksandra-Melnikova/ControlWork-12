@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectRegisterError, selectRegisterLoading } from "./UserSlice.ts";
-import 'font-awesome/css/font-awesome.min.css';
+import "font-awesome/css/font-awesome.min.css";
 import { NavLink } from "react-router-dom";
 import { register } from "./UserThunk.ts";
 import { RegisterMutation } from "../../types";
@@ -11,9 +11,8 @@ import FileInput from "../../components/FileInput/FileInput.tsx";
 
 const Register = () => {
   const [form, setForm] = useState<RegisterMutation>({
-    email: "",
+    username: "",
     password: "",
-    displayName: "",
     image: null,
   });
   const dispatch = useAppDispatch();
@@ -60,7 +59,7 @@ const Register = () => {
 
   return (
     <div className="container-fluid">
-      <div className="col-md-7 col-sm-10 col-xl-7 offset-md-4 mx-auto">
+      <div className="col-md-7 col-sm-10 col-xl-7 offset-md-4 mx-auto mb-5">
         <div className="form-container">
           <div className="form-icon">
             <i className="fa fa-user"></i>
@@ -68,50 +67,27 @@ const Register = () => {
           <h3 className="title">Register</h3>
           <form className="form-horizontal" onSubmit={submitFormHandler}>
             <div className="form-group">
-              {getFieldError("email") ? (
+              {getFieldError("username") ? (
                 <div
                   className="alert alert-danger w-100 text-center p-1 mx-auto"
                   role="alert"
                 >
-                  {getFieldError("email")}
+                  {getFieldError("username")}
                 </div>
               ) : null}
               <input
                 type="text"
-                id="email"
+                id="username"
                 className={
-                  getFieldError("email")
+                  getFieldError("username")
                     ? "form-control is-invalid"
                     : "form-control"
                 }
                 onChange={inputChangeHandler}
-                value={form.email}
-                name="email"
+                value={form.username}
+                name="username"
               />
-              <label>email</label>
-            </div>
-            <div className="form-group">
-              {getFieldError("displayName") ? (
-                <div
-                  className="alert alert-danger w-100 text-center p-1 mx-auto"
-                  role="alert"
-                >
-                  {getFieldError("displayName")}
-                </div>
-              ) : null}
-              <input
-                type="text"
-                id="displayName"
-                className={
-                  getFieldError("displayName")
-                    ? "form-control is-invalid"
-                    : "form-control"
-                }
-                onChange={inputChangeHandler}
-                value={form.displayName}
-                name="displayName"
-              />
-              <label>Your name</label>
+              <label>username</label>
             </div>
             <div className="form-group">
               {getFieldError("password") ? (
@@ -136,14 +112,7 @@ const Register = () => {
               />
               <label>password</label>
             </div>
-            {getFieldError("image") ? (
-              <div
-                className="alert alert-danger w-100 text-center p-1 mx-auto"
-                role="alert"
-              >
-                {getFieldError("image")}
-              </div>
-            ) : null}
+
             <FileInput
               id="image"
               name="image"

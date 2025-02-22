@@ -1,11 +1,11 @@
-import { Photo, ValidationError } from '../../types';
+import { Photo, ValidationError } from "../../types";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createPhoto,
   deletePhoto,
-  fetchPhotos, fetchPhotosForOneUser,
-
-} from './photosThunk.ts';
+  fetchPhotos,
+  fetchPhotosForOneUser,
+} from "./photosThunk.ts";
 import { RootState } from "../../app/store.ts";
 
 interface IPhotosState {
@@ -21,19 +21,17 @@ const initialState: IPhotosState = {
   fetchLoading: false,
   createLoading: false,
   deleteLoading: false,
-  createError: null
+  createError: null,
 };
 
-export const selectPhotoItems = (state: RootState) =>
-  state.photos.photos;
+export const selectPhotoItems = (state: RootState) => state.photos.photos;
 export const selectFetchLoading = (state: RootState) =>
   state.photos.fetchLoading;
 export const selectCreateLoading = (state: RootState) =>
   state.photos.createLoading;
 export const selectDeleteLoading = (state: RootState) =>
   state.photos.deleteLoading;
-export const selectError = (state: RootState) =>
-  state.photos.createError;
+export const selectError = (state: RootState) => state.photos.createError;
 
 export const photosSlice = createSlice({
   name: "photos",
@@ -83,7 +81,7 @@ export const photosSlice = createSlice({
       .addCase(createPhoto.rejected, (state, { payload: error }) => {
         state.createLoading = false;
         state.createError = error || null;
-      })
+      });
   },
 });
 

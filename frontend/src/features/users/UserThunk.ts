@@ -9,7 +9,7 @@ import {
   RegisterResponse,
   User,
   ValidationError,
-} from '../../types';
+} from "../../types";
 
 export const googleLogin = createAsyncThunk<
   User,
@@ -89,4 +89,3 @@ export const logout = createAsyncThunk<void, void, { state: RootState }>(
     });
   },
 );
-

@@ -1,12 +1,12 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { createPhoto } from './photosThunk.ts';
-import { PhotoMutation } from '../../types';
+import { createPhoto } from "./photosThunk.ts";
+import { PhotoMutation } from "../../types";
 import FileInput from "../../components/FileInput/FileInput.tsx";
-import { selectCreateLoading, selectError } from './photosSlice.ts';
+import { selectCreateLoading, selectError } from "./photosSlice.ts";
 import { useNavigate } from "react-router-dom";
-import { selectUser } from '../users/UserSlice.ts';
-import ButtonLoading from '../../components/UI/ButtonLoading/ButtonLoading.tsx';
+import { selectUser } from "../users/UserSlice.ts";
+import ButtonLoading from "../../components/UI/ButtonLoading/ButtonLoading.tsx";
 
 const initialState = {
   title: "",
@@ -32,9 +32,7 @@ const NewPhotoForm = () => {
   const submitFormHandler = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      console.log(form);
-      await dispatch(
-        createPhoto(form)).unwrap();
+      await dispatch(createPhoto(form)).unwrap();
       setForm(initialState);
       navigate(`/photos?userID=${user?._id}`);
     } catch (e) {
@@ -42,9 +40,7 @@ const NewPhotoForm = () => {
     }
   };
 
-  const inputChangeHandler = (
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };

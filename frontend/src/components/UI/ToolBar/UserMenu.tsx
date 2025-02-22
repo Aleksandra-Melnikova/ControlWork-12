@@ -2,10 +2,10 @@ import { NavLink } from "react-router-dom";
 import "./ToolBar.css";
 
 import { useSelector } from "react-redux";
-import { useAppDispatch } from '../../../app/hooks.ts';
-import { selectUser, unsetUser } from '../../../features/users/UserSlice.ts';
-import { logout } from '../../../features/users/UserThunk.ts';
-import { apiUrl } from '../../../globalConstants.ts';
+import { useAppDispatch } from "../../../app/hooks.ts";
+import { selectUser, unsetUser } from "../../../features/users/UserSlice.ts";
+import { logout } from "../../../features/users/UserThunk.ts";
+import { apiUrl } from "../../../globalConstants.ts";
 
 export interface UserMenuProps {
   username: string;
@@ -25,7 +25,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ username, image }) => {
         <div className={"d-flex"}>
           <div className={"ms-auto"}>
             <p className={"d-inline-block text-white ms-2 mt-3 mb-0"}>
-              Привет, <NavLink className={'text-white fw-normal'} to={`/photos?userID=${user?._id}`}>{username}! </NavLink>
+              Привет,{" "}
+              <NavLink
+                className={"text-white fw-normal"}
+                to={`/photos?userID=${user?._id}`}
+              >
+                {username}!{" "}
+              </NavLink>
             </p>
             {user?.googleID ? (
               <>
@@ -45,7 +51,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ username, image }) => {
               <div className={" ms-4 d-inline-block img-block"}>
                 <img
                   className={"img-user"}
-                  src={`${apiUrl}/${image}`}
+                  src={
+                    image
+                      ? `${apiUrl}/${image}`
+                      : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  }
                   alt={username}
                 />
               </div>

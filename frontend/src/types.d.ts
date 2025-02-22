@@ -1,19 +1,17 @@
 export interface RegisterMutation {
-  email: string;
+  username: string;
   password: string;
-  displayName: string;
   image: File | null;
 }
 
 export interface LoginMutation {
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface User {
   _id: string;
-  email: string;
-  displayName: string;
+  username: string;
   image: string;
   role: string;
   googleID?: string;
@@ -47,7 +45,7 @@ export interface Photo {
   image: string;
   user: {
     _id: string;
-    displayName: string;
+    username: string;
   };
 }
 

@@ -1,10 +1,7 @@
 import { LoginMutation } from "../../types";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import {
-  selectLoginError,
-  selectLoginLoading,
-} from "./UserSlice.ts";
+import { selectLoginError, selectLoginLoading } from "./UserSlice.ts";
 import { NavLink, useNavigate } from "react-router-dom";
 import { googleLogin, login } from "./UserThunk.ts";
 import ButtonLoading from "../../components/UI/ButtonLoading/ButtonLoading.tsx";
@@ -12,7 +9,7 @@ import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [form, setForm] = useState<LoginMutation>({
-    email: "",
+    username: "",
     password: "",
   });
   const dispatch = useAppDispatch();
@@ -72,13 +69,13 @@ const Login = () => {
               ) : null}
               <input
                 type="text"
-                id="email"
+                id="username"
                 className={"form-control"}
                 onChange={inputChangeHandler}
-                value={form.email}
-                name="email"
+                value={form.username}
+                name="username"
               />
-              <label>email</label>
+              <label>username</label>
             </div>
             <div className="form-group">
               <input
