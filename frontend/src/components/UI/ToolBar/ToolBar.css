@@ -1,0 +1,23 @@
+.nav-item .link-tool:hover {
+  text-decoration: underline;
+}
+.navbar a:hover {
+  text-decoration: none;
+}
+
+li .active {
+  text-shadow: white 1px 1px 0;
+}
+.nav-link-tool:hover {
+  text-shadow: lightblue 1px 1px 0;
+}
+.toolbar-background {
+  background-color: #ac40ab;
+}
+
+.img-user {
+  width: 50px;
+  height: auto;
+  max-height: 70px;
+  border-radius: 10%;
+}
