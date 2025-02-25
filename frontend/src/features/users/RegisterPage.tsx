@@ -67,21 +67,21 @@ const Register = () => {
           <h3 className="title">Register</h3>
           <form className="form-horizontal" onSubmit={submitFormHandler}>
             <div className="form-group">
-              {getFieldError("username") ? (
+              {getFieldError('username') ? (
                 <div
                   className="alert alert-danger w-100 text-center p-1 mx-auto"
                   role="alert"
                 >
-                  {getFieldError("username")}
+                  {getFieldError('username')}
                 </div>
               ) : null}
               <input
                 type="text"
                 id="username"
                 className={
-                  getFieldError("username")
-                    ? "form-control is-invalid"
-                    : "form-control"
+                  getFieldError('username')
+                    ? 'form-control is-invalid'
+                    : 'form-control'
                 }
                 onChange={inputChangeHandler}
                 value={form.username}
@@ -90,21 +90,21 @@ const Register = () => {
               <label>username</label>
             </div>
             <div className="form-group">
-              {getFieldError("password") ? (
+              {getFieldError('password') ? (
                 <div
                   className="alert alert-danger w-100 text-center p-1 mx-auto"
                   role="alert"
                 >
-                  {getFieldError("password")}
+                  {getFieldError('password')}
                 </div>
               ) : null}
               <input
                 type="password"
                 id="password"
                 className={
-                  getFieldError("password")
-                    ? "form-control is-invalid"
-                    : "form-control"
+                  getFieldError('password')
+                    ? 'form-control is-invalid'
+                    : 'form-control'
                 }
                 onChange={inputChangeHandler}
                 value={form.password}
@@ -124,17 +124,17 @@ const Register = () => {
 
             <ButtonLoading
               type="submit"
-              text={" Sign up"}
+              text={' Sign up'}
               isLoading={loading}
               isDisabled={loading}
             ></ButtonLoading>
 
             <NavLink
-              to={"/login"}
-              className={"d-block text-center mt-3 form-link-nav"}
+              to={'/login'}
+              className={'d-block text-center mt-3 form-link-nav'}
             >
               Already have an account?
-              <br /> Sign in
+              <br/> Sign in
             </NavLink>
           </form>
         </div>
